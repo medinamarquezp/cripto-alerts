@@ -2,7 +2,7 @@ import { Dealer } from "zeromq";
 import { services } from "@/src/config";
 import { logger } from "@/src/shared/logger";
 import { sendEmail } from "../services/mailer.service";
-import { IMailerNotification } from "../dtos/mailer-notification.dto";
+import { IMailerNotification } from "../interfaces/mailer-notification.interface";
 
 async function main() {
   logger.info("Notifications worker started");
