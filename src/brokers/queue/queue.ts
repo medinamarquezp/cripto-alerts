@@ -12,8 +12,12 @@ export class Queue {
     this.max = max;
   }
 
+  get QueueSize(): number {
+    return this.queue.length;
+  }
+
   send(msg: any) {
-    if (this.queue.length > this.max) {
+    if (this.queue.length >= this.max) {
       throw new Error("Queue is full");
     }
     this.queue.push(msg);
