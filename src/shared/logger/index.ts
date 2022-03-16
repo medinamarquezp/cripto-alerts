@@ -21,6 +21,7 @@ const fileTransport = {
 export const logger = pino(
   {
     level: app.LOG_LEVEL,
-    transport: app.IS_DEV ? consoleTransport : fileTransport
+    transport: app.IS_DEV ? consoleTransport : fileTransport,
+    enabled: !app.IS_TEST
   }
 );
