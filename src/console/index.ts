@@ -4,10 +4,6 @@ import { Command } from "commander";
 
 const program = new Command();
 
-const printBrand = () => {
-  console.log(figlet.textSync("Cripto Alerts", { horizontalLayout: "full" }));
-};
-
 program.name("cripto-alerts").description("Realtime email crypto alerts").version("1.0.0");
 
 program
@@ -16,6 +12,6 @@ program
   .action(() => undefined);
 
 (() => {
-  printBrand();
+  console.log(figlet.textSync("Cripto Alerts", { horizontalLayout: "full" }));
   program.parse();
 })();
