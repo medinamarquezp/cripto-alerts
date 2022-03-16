@@ -10,6 +10,7 @@
     "test": "jest",
     "dev": "nodemon",
     "notifications:start": "ts-node -r tsconfig-paths/register src/services/notifications/worker/index.ts",
+    "cmd": "ts-node -r tsconfig-paths/register src/console/index.ts",
     "prepare": "husky install"
   },
   "keywords": [
@@ -19,6 +20,7 @@
   "author": "Pedro Medina",
   "license": "ISC",
   "devDependencies": {
+    "@types/figlet": "^1.5.4",
     "@types/jest": "^27.4.0",
     "@types/node": "^17.0.14",
     "@types/nodemailer": "^6.4.4",
@@ -46,7 +48,9 @@
     ]
   },
   "dependencies": {
+    "commander": "^9.0.0",
     "dotenv": "^16.0.0",
+    "figlet": "^1.5.2",
     "nodemailer": "^6.7.2",
     "pino": "^7.6.5",
     "pino-pretty": "^7.5.1",
