@@ -1,6 +1,6 @@
 import { Dealer } from "zeromq";
 import { services } from "@/src/config";
-import { logger } from "@/src/shared/logger";
+import { logger } from "@/src/modules/shared/logger";
 import { sendEmail } from "../services/mailer.service";
 import { IMailerNotification } from "../interfaces/mailer-notification.interface";
 

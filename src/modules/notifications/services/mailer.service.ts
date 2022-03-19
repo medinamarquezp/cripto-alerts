@@ -1,6 +1,6 @@
 import { createTransport, Transporter } from "nodemailer";
 import { mailer } from "@/src/config";
-import { logger } from "@/src/shared/logger";
+import { logger } from "@/src/modules/shared/logger";
 import { template } from "../templates/base-notification.template";
 import { IMailerNotification } from "../interfaces/mailer-notification.interface";
 import { IMailerResult } from "../interfaces/mailer-result.interface";

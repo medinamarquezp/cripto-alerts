@@ -1,5 +1,5 @@
-import { IMailerNotification } from "@/src/services/notifications/interfaces/mailer-notification.interface";
-import { sendEmail } from "@/src/services/notifications/services/mailer.service";
+import { IMailerNotification } from "@/src/modules/notifications/interfaces/mailer-notification.interface";
+import { sendEmail } from "@/src/modules/notifications/services/mailer.service";
 import { createTransport } from "nodemailer";
 
 describe('Mail service tests', () => {
