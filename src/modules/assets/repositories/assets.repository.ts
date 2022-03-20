@@ -1,15 +1,20 @@
-import { dataSource } from "@/src/database/data-source";
+import { getDataSource } from "@/src/database/data-source";
 import { Asset } from "../entities/asset.entity";
 import { createAssetDto, updateAssetDto } from "../dtos/asset.dto";
 
-const assetRepository = dataSource.manager.getRepository(Asset);
+const getRepository = async () => {
+  const dataSource = await getDataSource();
+  return dataSource.getRepository(Asset);
+};
 
 export const getAssets = async (): Promise<Asset[]> => {
-  return await assetRepository.find();
+  const repo = await getRepository();
+  return await repo.find();
 };
 
 export const getAsset = async (assetId: string): Promise<Asset | null> => {
-  return await assetRepository.createQueryBuilder("asset")
+  const repo = await getRepository();
+  return await repo.createQueryBuilder("asset")
     .where("asset.assetId = :assetId", { assetId })
     .orWhere("asset.symbol = :assetId", { assetId })
     .orWhere("asset.name = :assetId", { assetId })
@@ -17,15 +22,18 @@ export const getAsset = async (assetId: string): Promise<Asset | null> => {
 };
 
 export const createAsset = async (asset: createAssetDto): Promise<void> => {
-  await assetRepository.insert(asset);
+  const repo = await getRepository();
+  await repo.insert(asset);
 };
 
 export const updateAsset = async (id: number, asset: updateAssetDto): Promise<void> => {
-  await assetRepository.update(id, asset);
+  const repo = await getRepository();
+  await repo.update(id, asset);
 };
 
 export const deleteAsset = async (id: number): Promise<void> => {
-  await assetRepository.delete(id);
+  const repo = await getRepository();
+  await repo.delete(id);
 };
 
 export const upsertAsset = async (incomingAsset: createAssetDto): Promise<void> => {

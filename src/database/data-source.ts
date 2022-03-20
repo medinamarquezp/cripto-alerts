@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { join } from "path";
 import { DataSource } from "typeorm";
 import { SqliteConnectionOptions } from "typeorm/driver/sqlite/SqliteConnectionOptions";
@@ -14,4 +15,7 @@ const dataSourceConfig: SqliteConnectionOptions = {
   synchronize: true,
 };
 
-export const dataSource = new DataSource(dataSourceConfig);
+export const getDataSource = async (): Promise<DataSource> => {
+  const source = new DataSource(dataSourceConfig);
+  return await source.initialize();
+};
