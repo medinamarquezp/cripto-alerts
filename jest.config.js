@@ -8,5 +8,5 @@ module.exports = {
     modulePaths: ["<rootDir>"],
     moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
     moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
-    testRegex: "(/tests/.*|(\\.|/)(test|spec))\\.ts?$",
+    testRegex: "(/tests/.*(\\.|/)(test|spec))\\.ts?$",
 };
