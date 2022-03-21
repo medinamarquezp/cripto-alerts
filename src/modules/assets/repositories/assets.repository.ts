@@ -12,7 +12,7 @@ export const getAssets = async (): Promise<Asset[]> => {
   return await repo.find();
 };
 
-export const getAsset = async (assetId: string | number): Promise<Asset> => {
+export const getAsset = async (assetId: string | number): Promise<Asset | null> => {
   const repo = await getRepository();
   return await repo
     .createQueryBuilder("asset")
@@ -20,14 +20,14 @@ export const getAsset = async (assetId: string | number): Promise<Asset> => {
     .orWhere("asset.assetId = :assetId", { assetId })
     .orWhere("asset.symbol = :assetId", { assetId })
     .orWhere("asset.name = :assetId", { assetId })
-    .getOneOrFail();
+    .getOne();
 };
 
 export const createAsset = async (createdAsset: createAssetDto, returnsCreated = false): Promise<Asset | void> => {
   const repo = await getRepository();
   await repo.insert(createdAsset);
   if (returnsCreated) {
-    return await getAsset(createdAsset.assetId);
+    return await getAsset(createdAsset.assetId) as Asset;
   }
 };
 
@@ -39,26 +39,24 @@ export const updateAsset = async (
   const repo = await getRepository();
   await repo.update(id, updatedAsset);
   if (returnsUpdated) {
-    return await getAsset(id);
+    return await getAsset(id) as Asset;
   }
 };
 
-export const deleteAsset = async (id: number, returnsDeleted = false): Promise<Asset | void> => {
+export const deleteAsset = async (id: number): Promise<void> => {
   const repo = await getRepository();
   await repo.delete(id);
-  if (returnsDeleted) {
-    return await getAsset(id);
-  }
 };
 
-export const upsertAsset = async (incomingAsset: createAssetDto, returnsAsset = false): Promise<Asset | void> => {
+export const upsertAsset = async (incomingAsset: updateAssetDto, returnsAsset = false): Promise<Asset | void> => {
   let asset;
-  const assetId = incomingAsset.assetId || "";
+  const assetId = incomingAsset.assetId || incomingAsset.name || incomingAsset.symbol || "";
   const existingAsset = await getAsset(assetId);
   if (existingAsset) {
     asset = await updateAsset(existingAsset.id, incomingAsset, true);
+  } else {
+    asset = await createAsset(incomingAsset as createAssetDto, true);
   }
-  asset = await createAsset(incomingAsset, true);
   if (returnsAsset) {
     return asset as Asset;
   }
