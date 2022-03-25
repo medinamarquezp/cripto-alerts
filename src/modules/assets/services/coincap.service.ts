@@ -3,7 +3,7 @@ import { CoincapAssetsList } from "../interfaces/coincap.interface";
 
 const COINCAP_URI = "api.coincap.io";
 
-export const getAssets = async (offset = 0, limit = 100 ): Promise<CoincapAssetsList> => {
+export const getCoincapAssets = async (offset = 0, limit = 100 ): Promise<CoincapAssetsList> => {
   const path = `${COINCAP_URI}/v2/assets?offset=${offset}&limit=${limit}`;
   const response = await fetch(path);
   const data = await response.json();
