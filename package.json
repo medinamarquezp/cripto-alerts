@@ -1,5 +1,6 @@
 {
   "name": "cripto-alerts",
+  "title": "Cripto Alerts",
   "version": "1.0.0",
   "description": "Realtime email crypto alerts",
   "main": "index.ts",

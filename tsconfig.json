@@ -13,6 +13,7 @@
             "@/src/*": ["src/*"]
         },
         "esModuleInterop": true,
+        "resolveJsonModule": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "skipLibCheck": true,
