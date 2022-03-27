@@ -19,7 +19,7 @@ export const processAssets = async (limit = 1000, maxIterations = 0) => {
       iterations += 1;
       offset = nextSet(iterations);
       assetsSet = offset;
-      if (maxIterations && maxIterations >= offset) break;
+      if (maxIterations && maxIterations >= iterations) break;
     }
   } catch (err) {
     const error = err as Error;
