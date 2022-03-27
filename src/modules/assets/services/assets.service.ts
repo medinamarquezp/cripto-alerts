@@ -4,19 +4,25 @@ import { getCoincapAssets } from "./coincap.service";
 import { upsertAsset } from "../repositories/assets.repository";
 
 export const processAssets = async (limit = 1000, maxIterations = 0) => {
-  let offset = 0;
-  const totalAssets = !offset ? limit : (offset + 1) * limit;
-
-  logAndOutput(`processAssets: process started with ${totalAssets} assets`, "info");
-  while (true) {
-    const assets = await getCoincapAssets(offset, limit);
-    if (!assets) break;
-    for await (const asset of assets) {
-      logAndOutput(`Processing ${asset.name} data...`);
-      await upsertAsset(asset);
+  let [offset, iterations, assetsSet] = Array(3).fill(0);
+  const nextSet = (iterations: number) => (iterations + 1) * limit;
+  try {
+    while (true) {
+      logAndOutput(`processAssets: process started for ${assetsSet} assets`, "info");
+      const assets = await getCoincapAssets(offset, limit);
+      if (!assets) break;
+      for await (const asset of assets) {
+        logAndOutput(`Processing ${asset.name} data...`);
+        await upsertAsset(asset);
+      }
+      logAndOutput(`processAssets: ${assetsSet} assets processed succefully!`, "info");
+      iterations += 1;
+      offset = nextSet(iterations);
+      assetsSet = offset;
+      if (maxIterations && maxIterations >= offset) break;
     }
-    offset += 1;
-    if (maxIterations && maxIterations >= offset) break;
+  } catch (err) {
+    const error = err as Error;
+    logAndOutput(`processAssets: error on processing assets: ${error.message}`, "error");
   }
-  logAndOutput(`processAssets: ${totalAssets} assets processed succefully!`, "info");
 };

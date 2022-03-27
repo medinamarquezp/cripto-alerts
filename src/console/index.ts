@@ -1,17 +1,15 @@
 #!/usr/bin/env node
-import figlet from "figlet";
+import { textSync } from "figlet";
 import { Command } from "commander";
+import { title, description, version } from "../../package.json";
+import { processAssetsCommand } from "./commands/process-assets.command";
 
-const program = new Command();
-
-program.name("cripto-alerts").description("Realtime email crypto alerts").version("1.0.0");
-
-program
-  .command("alerts:create")
-  .description("Create a new alert")
-  .action(() => undefined);
+let program = new Command();
+program.name("cmd").description(description).version(version);
+program = processAssetsCommand(program);
 
 (() => {
-  console.log(figlet.textSync("Cripto Alerts", { horizontalLayout: "full" }));
+  console.log(textSync(title));
+  if (process.argv.length < 3) program.help();
   program.parse();
 })();
